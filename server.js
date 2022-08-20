@@ -3,12 +3,13 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const colors = require('colors');
 const cors = require('cors');
+const errorHandler = require('./middlewares/error');
 
 // Loads auth config
 dotenv.config({ path: './config/config.env' });
 
 // Routes
-const properties = require('./routes/property');
+const propertyRoute = require('./routes/property');
 
 
 const app = express();
@@ -28,8 +29,10 @@ app.use(cors({
 }))
 
 // Routes
-app.use('/api/v1/properties', properties);
+app.use('/api/v1/property', propertyRoute);
 
+// Error Handling
+app.use(errorHandler)
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on PORT ${PORT}`.yellow.bold);
