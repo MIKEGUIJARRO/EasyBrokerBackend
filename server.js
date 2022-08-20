@@ -9,10 +9,11 @@ const errorHandler = require('./middlewares/error');
 dotenv.config({ path: './config/config.env' });
 
 // Routes
-const propertyRoute = require('./routes/property');
+const propertiesRoute = require('./routes/properties');
 
 
 const app = express();
+
 
 // Body parser
 app.use(express.json())
@@ -29,7 +30,7 @@ app.use(cors({
 }))
 
 // Routes
-app.use('/api/v1/property', propertyRoute);
+app.use('/api/v1/properties', propertiesRoute);
 
 // Error Handling
 app.use(errorHandler)
