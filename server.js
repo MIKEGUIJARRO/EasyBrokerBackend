@@ -11,7 +11,7 @@ dotenv.config({ path: './config/config.env' });
 
 // Routes
 const propertiesRoute = require('./routes/properties');
-
+const contactRequestsRoute = require('./routes/contactRequests');
 
 const app = express();
 
@@ -32,6 +32,7 @@ app.use(cors({
 
 // Routes
 app.use(apiVersion + '/properties', propertiesRoute);
+app.use(apiVersion + '/contact_requests', contactRequestsRoute);
 
 // Error Handling
 app.use(errorHandler)

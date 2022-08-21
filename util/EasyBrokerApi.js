@@ -29,7 +29,7 @@ class EasyBrokerApi {
                 },
                 getProperty: function (options = {}) {
                     if (!options.id) {
-                        throw new ErrorResponse('id required for this endpoint, try again.')
+                        throw new ErrorResponse('id required for /properties endpoint, try again.', 400)
                     }
                     return {
                         method: methods.GET.description,
@@ -38,7 +38,7 @@ class EasyBrokerApi {
                 },
                 post: function (options = {}) {
                     if (!options.data) {
-                        throw new ErrorResponse('data required for this endpoint, try again.', 400);
+                        throw new ErrorResponse('data required for /properties endpoint, try again.', 400);
                     }
                     return {
                         method: methods.POST.description,
@@ -57,7 +57,7 @@ class EasyBrokerApi {
                 },
                 post: function (options = {}) {
                     if (!options.data) {
-                        throw new ErrorResponse('data required for this endpoint, try again.', 400);
+                        throw new ErrorResponse('data required for /contact_requests endpoint, try again.', 400);
                     }
                     return {
                         method: methods.POST.description,
@@ -74,9 +74,21 @@ class EasyBrokerApi {
     }
 
     async properties(method = '', options = {}) {
-        const existingEndpoint = this.endpoints.properties[method]
+        const existingEndpoint = this.endpoints.properties[method];
         if (!existingEndpoint) {
-            throw new ErrorResponse('Invalid method for properties', 500);
+            throw new ErrorResponse('Invalid method for properties/', 500);
+        }
+
+        const endpoint = existingEndpoint(options);
+
+        const response = await this.request(endpoint);
+        return response;
+    }
+
+    async contactRequests(method = '', options = {}) {
+        const existingEndpoint = this.endpoints.contactRequests[method];
+        if (!existingEndpoint) {
+            throw new ErrorResponse('Invalid method for contact_requests/', 500);
         }
 
         const endpoint = existingEndpoint(options);
