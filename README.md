@@ -12,6 +12,8 @@ This is a REST API developed with Express and Nodejs.
 
 
 ## General Information 💡
+Use `npm install` to install all dependencies.
+
 Use `npm run dev` to run this project.
 It is necessary to create `config.env` inside `/config`. 
 
