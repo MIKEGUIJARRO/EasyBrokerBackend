@@ -1,6 +1,8 @@
 const axios = require('axios').default;
-const { stringValidator } = require('../util/validatiors');
+const qs = require('qs')
 const ErrorResponse = require('./ErrorResponse');
+const { stringValidator } = require('../util/validatiors');
+
 
 const resources = Object.freeze({
     PROPERTIES: Symbol('/properties'),
@@ -78,7 +80,7 @@ class EasyBrokerApi {
         }
 
         const endpoint = existingEndpoint(options);
-        console.log(endpoint)
+
         const response = await this.request(endpoint);
         return response;
     }
@@ -91,9 +93,13 @@ class EasyBrokerApi {
             method: endpoint?.method,
             data: endpoint?.data ? endpoint.data : null,
             params: endpoint?.params ? endpoint.params : null,
+            paramsSerializer: params => {
+                return qs.stringify(params, { arrayFormat: 'brackets' });
+            }
         }
         const res = await axios(config);
         const response = res.data;
+        
         if (stringValidator(response)) {
             throw new ErrorResponse('The EasyBrokerAPI response is not JSON, review request.', 400, response);
         }
