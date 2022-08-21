@@ -4,13 +4,13 @@ const ErrorResponse = require('./ErrorResponse');
 
 const resources = Object.freeze({
     PROPERTIES: Symbol('/properties'),
-    CONTACT_REQUESTS: Symbol('/contact_requests')
+    CONTACT_REQUESTS: Symbol('/contact_requests'),
 });
 
 const methods = Object.freeze({
     GET: Symbol('get'),
     POST: Symbol('post'),
-})
+});
 
 class EasyBrokerApi {
     constructor() {
@@ -78,7 +78,7 @@ class EasyBrokerApi {
         }
 
         const endpoint = existingEndpoint(options);
-
+        console.log(endpoint)
         const response = await this.request(endpoint);
         return response;
     }
@@ -93,12 +93,12 @@ class EasyBrokerApi {
             params: endpoint?.params ? endpoint.params : null,
         }
         const res = await axios(config);
-        const response = res.data
+        const response = res.data;
         if (stringValidator(response)) {
             throw new ErrorResponse('The EasyBrokerAPI response is not JSON, review request.', 400, response);
         }
         if (res.status >= 400 && response.status <= 499) {
-            throw new ErrorResponse('The EasyBrokerApi response was unsuccessful, review request.', res.status, response)
+            throw new ErrorResponse('The EasyBrokerApi response was unsuccessful, review request.', res.status, response);
         }
         return response;
     }
