@@ -120,10 +120,8 @@ class EasyBrokerApi {
         }
 
         if (response?.pagination?.next_page) {
-            console.log(response.pagination.next_page)
             response.pagination.next_page
                 = nextPageShadowing(response.pagination.next_page)
-            console.log(response.pagination.next_page)
         }
         return response;
     }

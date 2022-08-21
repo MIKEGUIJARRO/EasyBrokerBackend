@@ -19,7 +19,6 @@ module.exports.postContactRequests = asyncHandler(async (req, res, next) => {
     const options = {
         data: { ...req.body }
     };
-    console.log(options)
     const response = await ebApi.contactRequests('post', options);
     res.status(200).json({
         success: true,
