@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const colors = require('colors');
 const cors = require('cors');
 const errorHandler = require('./middlewares/error');
+const { apiVersion } = require('./constants')
 
 // Loads auth config
 dotenv.config({ path: './config/config.env' });
@@ -30,7 +31,7 @@ app.use(cors({
 }))
 
 // Routes
-app.use('/api/v1/properties', propertiesRoute);
+app.use(apiVersion + '/properties', propertiesRoute);
 
 // Error Handling
 app.use(errorHandler)
@@ -38,3 +39,4 @@ const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on PORT ${PORT}`.yellow.bold);
 });
+

@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 const qs = require('qs')
 const ErrorResponse = require('./ErrorResponse');
-const { stringValidator } = require('../util/validatiors');
+const { stringValidator, nextPageShadowing } = require('./helpers');
 
 
 const resources = Object.freeze({
@@ -99,12 +99,19 @@ class EasyBrokerApi {
         }
         const res = await axios(config);
         const response = res.data;
-        
+
         if (stringValidator(response)) {
             throw new ErrorResponse('The EasyBrokerAPI response is not JSON, review request.', 400, response);
         }
         if (res.status >= 400 && response.status <= 499) {
             throw new ErrorResponse('The EasyBrokerApi response was unsuccessful, review request.', res.status, response);
+        }
+
+        if (response?.pagination?.next_page) {
+            console.log(response.pagination.next_page)
+            response.pagination.next_page
+                = nextPageShadowing(response.pagination.next_page)
+            console.log(response.pagination.next_page)
         }
         return response;
     }
